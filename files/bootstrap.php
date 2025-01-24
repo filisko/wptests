@@ -111,9 +111,6 @@ if ( isset( $GLOBALS['wp_tests_options'] ) ) {
 // Load WordPress.
 require_once ABSPATH . 'wp-settings.php';
 
-// Delete any default posts & related data.
-_delete_all_posts();
-
 // Load class aliases for compatibility with PHPUnit 6+.
 if ( version_compare( tests_get_phpunit_version(), '6.0', '>=' ) ) {
 	require INCLUDES.'/phpunit6/compat.php';

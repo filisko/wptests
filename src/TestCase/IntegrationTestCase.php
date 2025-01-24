@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Filisko\WpTests\TestCase;
+namespace CentralQuality\WpTests\TestCase;
 
+use PHPUnit_Adapter_TestCase;
 use WP_Error;
 use WP_UnitTestCase;
 
@@ -25,18 +26,18 @@ abstract class IntegrationTestCase extends WP_UnitTestCase
         $token = getenv('TEST_TOKEN') ?: 1;
 
         if (!defined('ABSPATH')) {
-
             define('ABSPATH', '/wptests/persistent/plugin/wp/');
             define('WP_DEBUG', true);
             define('DB_HOST', 'mariadb');
             define('DB_CHARSET', 'utf8');
             define('DB_COLLATE', '');
-            define('DB_NAME', 'plugin_integration');
-            //        define( 'DB_NAME', 'plugin_'.$token );
+            define('DB_NAME', 'plugin_functional_' . $token);
+//            define('DB_NAME', 'plugin_integration');
             define('DB_PASSWORD', 'root');
             define('DB_USER', 'root');
-            define('WP_HOME', 'http://php:' . static::$port . '/');
-            define('WP_SITEURL', 'http://php:' . static::$port . '/');
+
+            define('WP_HOME', 'http://localhost');
+            define('WP_SITEURL', 'http://localhost');
 
             define('AUTH_KEY', 'put your unique phrase here');
             define('SECURE_AUTH_KEY', 'put your unique phrase here');
@@ -55,22 +56,30 @@ abstract class IntegrationTestCase extends WP_UnitTestCase
             define('WP_HTTP_BLOCK_EXTERNAL', true);
             define('WP_PLUGIN_DIR', '/wptests/persistent/plugin/plugins');
 
-            // deeper cleanup per test method, see setUp() of parent
-            define('WP_RUN_CORE_TESTS', true);
-
             require_once __DIR__ . '/../../files/bootstrap.php';
         }
 
         parent::setUpBeforeClass();
     }
 
-//    public static function tearDownAfterClass(): void
-//    {
-//
-//    }
+    /**
+     * Removed _delete_all_data() from original method.
+     * Otherwise we cant test against plugins (it will delete everything).
+     *
+     * @see \WP_UnitTestCase_Base::tear_down_after_class
+	 */
+	public static function tear_down_after_class()
+    {
+		self::flush_cache();
+
+		PHPUnit_Adapter_TestCase::tear_down_after_class();
+	}
 
     public function setUp(): void
     {
+        // its inside setUp() but under "WP_RUN_CORE_TESTS" conditional
+        $this->reset__SERVER();
+
         parent::setUp();
 
         $this->recordRedirect();
@@ -85,8 +94,8 @@ abstract class IntegrationTestCase extends WP_UnitTestCase
         $this->wp_http_requests = [];
         $this->wp_http_responses = [];
 
-        // clear Woocommerce notices
-        if (function_exists('wc_clear_notices')) {
+        // clear Woocommerce stuff
+        if (is_plugin_active('woocommerce/woocommerce.php')) {
             wc_clear_notices();
         }
     }
@@ -148,7 +157,11 @@ abstract class IntegrationTestCase extends WP_UnitTestCase
         $this->assertEquals($count, count($this->wp_http_requests), 'Expected HTTP requests count failed.');
     }
 
-    protected function assertRedirect(array $redirect)
+    /**
+     * @param array $redirect
+     * @return void
+     */
+    protected function assertRedirect($redirect)
     {
         static::assertEquals($redirect, $this->wp_redirect);
     }

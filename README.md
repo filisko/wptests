@@ -1,6 +1,6 @@
 # wptests
 
-cp -R ./vendor/filisko/wptests/files/template/* .
+cp -R ./vendor/central-quality/wptests/files/template/* .
 
 recipes over closed circuits
 

@@ -10,4 +10,4 @@ require_once VENDOR.'/autoload.php';
 //    'active_plugins' => [ 'plugin-name/main-file.php' ],
 //];
 
-require_once VENDOR.'/filisko/wptests/files/bootstrap.php';
+//require_once VENDOR.'/central-quality/wptests/files/bootstrap.php';
