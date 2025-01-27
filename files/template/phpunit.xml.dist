@@ -11,11 +11,6 @@
          convertNoticesToExceptions="true"
          convertDeprecationsToExceptions="true"
   >
-  <coverage includeUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">./tests/includes</directory>
-    </include>
-  </coverage>
   <testsuites>
     <testsuite name="integration">
       <directory suffix=".php">tests/Integration</directory>
@@ -24,7 +19,4 @@
       <directory suffix=".php">tests/Functional</directory>
     </testsuite>
   </testsuites>
-  <logging>
-    <junit outputFile="tests/build/logs/junit.xml"/>
-  </logging>
 </phpunit>

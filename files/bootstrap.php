@@ -1,7 +1,7 @@
 <?php
 
 if (!getenv('WP_PHPUNIT__DIR')) {
-    echo "wwhererere" . PHP_EOL;
+    echo "Define WP_PHPUNIT__DIR !" . PHP_EOL;
     exit(0);
 }
 

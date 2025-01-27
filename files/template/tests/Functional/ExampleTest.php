@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace YourNamespace\Tests\Functional;
+namespace App\Tests\Functional;
 
 use CentralQuality\WpTests\TestCase\FunctionalTestCase;
 

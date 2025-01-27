@@ -1,13 +1,6 @@
 <?php
 
-define('VENDOR', __DIR__.'/../vendor');
+define('TESTS_DIR', __DIR__);
 
-require_once VENDOR.'/autoload.php';
+require_once __DIR__.'/../vendor'.'/autoload.php';
 
-//define('WP_TESTS_CONFIG_FILE_PATH', __DIR__.'/wp-config.php');
-//
-//$GLOBALS['wp_tests_options'] = [
-//    'active_plugins' => [ 'plugin-name/main-file.php' ],
-//];
-
-//require_once VENDOR.'/central-quality/wptests/files/bootstrap.php';
