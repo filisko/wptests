@@ -29,7 +29,7 @@ class ExampleTest extends IntegrationTestCase
         $postId = $this->factory()->post->create();
         $ownerId = get_post_field( 'post_author', $postId );
 
-        // owner is logged in user :
+        // owner is the previusly logged in user:
         static::assertEquals($ownerId, $ownerId);
     }
 }
